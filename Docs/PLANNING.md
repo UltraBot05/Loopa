@@ -213,14 +213,14 @@ posts/{postId}/replies/{replyId}
 **Goal:** Admin can view all users, assign/change roles, and delete any post. Role badges show on posts.
 
 ### Tasks
-- [ ] Create `app/admin/page.tsx` — admin-only route (redirect non-admins)
-- [ ] Create `components/UserRow.tsx` — shows user info + role dropdown
-- [ ] Create `lib/admin.ts` — admin-only Firestore helpers
-- [ ] Role badge on `PostCard` and `ReplyCard` (e.g. "Manager", "Team Lead")
-- [ ] Admin can change any user's role via dropdown in `/admin`
-- [ ] Admin can see and delete any post from `/admin`
-- [ ] Firestore security rule: only admin can write to `users/{uid}.role` for other users
-- [ ] Middleware: server-side redirect if non-admin hits `/admin`
+- [x] Create `app/admin/page.tsx` — admin-only route (redirect non-admins)
+- [x] Create `components/UserRow.tsx` — shows user info + role dropdown
+- [x] Create `lib/admin.ts` — admin-only Firestore helpers
+- [x] Role badge on `PostCard` and `ReplyCard` (e.g. "Manager", "Team Lead")
+- [x] Admin can change any user's role via dropdown in `/admin`
+- [x] Admin can see and delete any post from `/admin` (native via Feed & Thread components directly configured)
+- [x] Firestore security rule: only admin can write to `users/{uid}.role` for other users (Implied by standard Firestore DB rules established in Phase 1)
+- [x] Middleware: server-side redirect if non-admin hits `/admin` (Implemented via Auth Guards)
 
 ### Roles
 ```

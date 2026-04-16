@@ -9,6 +9,7 @@ export default defineConfig({
     passWithNoTests: true,
     globals: true,
     setupFiles: ['./vitest.setup.ts'],
+    exclude: ['**/node_modules/**', '**/e2e/**'],
     coverage: {
       reporter: ['text', 'json', 'html'],
       exclude: ['node_modules/', 'e2e/', '.next/'],

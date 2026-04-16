@@ -169,14 +169,14 @@ posts/{postId}
 **Goal:** Each post has a reply thread at `/replies/<postId>`. Users can reply, edit, delete their own replies.
 
 ### Tasks
-- [ ] Create `app/replies/[postId]/page.tsx` — thread view
-- [ ] Create `lib/replies.ts` — CRUD helpers for replies subcollection
-- [ ] Create `components/ReplyCard.tsx` — like PostCard but for replies
-- [ ] Create `components/ReplyComposer.tsx`
-- [ ] Clicking a post on homepage navigates to its thread
-- [ ] Show original post at top of thread page, replies below
-- [ ] Update `replyCount` on parent post when reply is added/deleted (use Firestore transaction or increment)
-- [ ] `PostCard` shows reply count badge that links to thread
+- [x] Create `app/replies/[postId]/page.tsx` — thread view
+- [x] Create `lib/replies.ts` — CRUD helpers for replies subcollection
+- [x] Create `components/ReplyCard.tsx` — like PostCard but for replies
+- [x] Create `components/ReplyComposer.tsx`
+- [x] Clicking a post on homepage navigates to its thread
+- [x] Show original post at top of thread page, replies below
+- [x] Update `replyCount` on parent post when reply is added/deleted (use Firestore transaction or increment)
+- [x] `PostCard` shows reply count badge that links to thread
 
 ### Firestore Collections Created This Phase
 ```

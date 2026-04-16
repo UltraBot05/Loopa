@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Loopa — Project Update Board
 
-## Getting Started
+A lightweight team collaboration app where members post project updates, reply in threads, and stay in sync. Built with Next.js, Firebase, and deployed on Vercel — free tier all the way.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## What It Does
+
+- **Google Sign-In** — team members authenticate with their Google accounts
+- **Display Names** — on first login, users pick a name or nickname
+- **Roles** — Admin assigns roles: `admin`, `manager`, `team_lead`, `member`
+- **Updates Feed** — homepage shows all project update posts, newest first
+- **Threads** — each post can have replies at `/replies/<postId>`
+- **Edit / Delete** — original poster (OP) can edit or delete their own posts
+- **Admin Panel** — `/admin` for role management, user overview, and post moderation
+
+---
+
+## Tech Stack
+
+| Layer | Choice | Why |
+|---|---|---|
+| Framework | Next.js 16 (App Router) | Vercel-native, SSR + API routes |
+| Auth | Firebase Auth (Google) | Free, easy Google OAuth |
+| Database | Firestore | Free tier generous, real-time |
+| Styling | Tailwind CSS | Fast, consistent |
+| Hosting | Vercel | Free, auto-deploy from GitHub |
+| Testing | Vitest + Playwright | Unit + E2E |
+
+---
+
+## Project Structure
+
+```
+loopa/
+├── app/                    # Next.js App Router pages
+│   ├── page.tsx            # Homepage — posts feed
+│   ├── replies/[postId]/   # Thread view
+│   ├── admin/              # Admin panel
+│   └── api/                # API route handlers
+├── components/             # Reusable UI components
+├── lib/                    # Firebase config, helpers, types
+├── hooks/                  # Custom React hooks
+├── __tests__/              # Unit tests (Vitest)
+├── e2e/                    # End-to-end tests (Playwright)
+├── docs/                   # Project documentation (this folder)
+└── .github/workflows/      # CI/CD pipelines
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Quick Start (Local Dev)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# 1. Clone the repo
+git clone https://github.com/UltraBot05/Loopa.git
+cd loopa
 
-## Learn More
+# 2. Install dependencies
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# 3. Set up environment variables
+cp .env.example .env.local
+# Fill in your Firebase config
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# 4. Run dev server
+npm run dev
+# → http://localhost:3000
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Every push to `main` auto-deploys to Vercel/GitHub CI. PRs get preview deployments.
+CI must pass (lint + unit tests + E2E) before merge.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Admin Access
+
+Only one admin account exists. To make yourself admin:
+1. Sign in once (creates your Firestore user doc)
+2. In Firebase Console → Firestore → `users` collection → find your doc → set `role: "admin"`
+
+After that, the `/admin` route is accessible only to you.

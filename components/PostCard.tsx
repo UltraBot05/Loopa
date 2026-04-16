@@ -3,12 +3,15 @@ import { formatDistanceToNow } from "date-fns";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import { PostActions } from "./PostActions";
+
 interface PostCardProps {
   post: Post;
   currentUserId?: string; // Optional, might be used to show edit/delete actions for owner later
+  currentUserRole?: string;
 }
 
-export function PostCard({ post }: PostCardProps) {
+export function PostCard({ post, currentUserId, currentUserRole }: PostCardProps) {
   return (
     <div data-testid="post-card" className="bg-white p-4 rounded-lg shadow-sm border mb-4">
       <div className="flex items-center justify-between mb-2">
@@ -24,7 +27,7 @@ export function PostCard({ post }: PostCardProps) {
             <span className="text-xs text-gray-400 italic">(edited)</span>
           )}
         </div>
-        {/* Placeholder for future PostActions dropdown */}
+        <PostActions post={post} currentUserId={currentUserId} currentUserRole={currentUserRole} />
       </div>
 
       <div className="prose prose-sm max-w-none text-gray-800 break-words">

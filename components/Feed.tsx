@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { collection, query, orderBy, limit, onSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { useAuth } from "@/hooks/useAuth";
 import { PostCard } from "./PostCard";
 import type { Post, PostDoc } from "@/lib/types";
 
@@ -10,6 +11,7 @@ export function Feed() {
   const [actualPosts, setActualPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const { user } = useAuth(); // Import useAuth to pass current user logic!
 
   useEffect(() => {
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(50));
@@ -64,7 +66,12 @@ export function Feed() {
   return (
     <div className="space-y-4">
       {actualPosts.map((post) => (
-        <PostCard key={post.postId} post={post} />
+        <PostCard 
+          key={post.postId} 
+          post={post} 
+          currentUserId={user?.uid} 
+          currentUserRole={user?.role} 
+        />
       ))}
     </div>
   );

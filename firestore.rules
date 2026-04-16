@@ -1,9 +1,67 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+
+    // Helper: is the requesting user authenticated?
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    // Helper: get the requesting user's role from Firestore
+    function userRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isAdmin() {
+      return isAuth() && userRole() == 'admin';
+    }
+
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+
+    // ── Users ──────────────────────────────────────────────
+    match /users/{uid} {
+      // Any authenticated user can read any user doc (for display names, roles)
+      allow read: if isAuth();
+
+      // User can create their own doc (on first sign-in)
+      allow create: if isOwner(uid);
+
+      // User can update their own doc, EXCEPT role field
+      // Admin can update any doc including role
+      allow update: if isAdmin()
+        || (isOwner(uid) && !('role' in request.resource.data.diff(resource.data).affectedKeys()));
+
+      allow delete: if isAdmin();
+    }
+
+    // ── Posts ──────────────────────────────────────────────
+    match /posts/{postId} {
+      allow read: if isAuth();
+
+      allow create: if isAuth()
+        && request.resource.data.authorUid == request.auth.uid;
+
+      allow update: if isAdmin()
+        || (isAuth() && resource.data.authorUid == request.auth.uid);
+
+      allow delete: if isAdmin()
+        || (isAuth() && resource.data.authorUid == request.auth.uid);
+
+      // ── Replies ──────────────────────────────────────────
+      match /replies/{replyId} {
+        allow read: if isAuth();
+
+        allow create: if isAuth()
+          && request.resource.data.authorUid == request.auth.uid;
+
+        allow update: if isAdmin()
+          || (isAuth() && resource.data.authorUid == request.auth.uid);
+
+        allow delete: if isAdmin()
+          || (isAuth() && resource.data.authorUid == request.auth.uid);
+      }
     }
   }
 }

@@ -17,6 +17,14 @@ describe("PostCard", () => {
     expect(screen.getByText("All good!")).toBeInTheDocument();
 
     // Reply count check
-    expect(screen.getByText("2 replies")).toBeInTheDocument();
+    const replyLink = screen.getByTestId("reply-count-link");
+    expect(replyLink).toBeInTheDocument();
+    expect(replyLink).toHaveTextContent("2 replies");
+    expect(replyLink).toHaveAttribute("href", "/replies/post-abc");
+  });
+
+  it("hides reply link if hideReplyLink is true", () => {
+    render(<PostCard post={mockPost} hideReplyLink={true} />);
+    expect(screen.queryByTestId("reply-count-link")).not.toBeInTheDocument();
   });
 });

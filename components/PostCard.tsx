@@ -1,17 +1,19 @@
-import type { Post } from "@/lib/types";
-import { formatDistanceToNow } from "date-fns";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { formatDistanceToNow } from "date-fns";
 
+import type { Post } from "@/lib/types";
 import { PostActions } from "./PostActions";
 
 interface PostCardProps {
   post: Post;
   currentUserId?: string; // Optional, might be used to show edit/delete actions for owner later
   currentUserRole?: string;
+  hideReplyLink?: boolean;
 }
 
-export function PostCard({ post, currentUserId, currentUserRole }: PostCardProps) {
+export function PostCard({ post, currentUserId, currentUserRole, hideReplyLink }: PostCardProps) {
   return (
     <div data-testid="post-card" className="bg-white p-4 rounded-lg shadow-sm border mb-4">
       <div className="flex items-center justify-between mb-2">
@@ -34,17 +36,20 @@ export function PostCard({ post, currentUserId, currentUserRole }: PostCardProps
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
       </div>
 
-      <div className="mt-4 pt-3 border-t">
-        <button
-          data-testid="reply-count-link"
-          className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
-          {post.replyCount} {post.replyCount === 1 ? "reply" : "replies"}
-        </button>
-      </div>
+      {!hideReplyLink && (
+        <div className="mt-4 pt-3 border-t">
+          <Link
+            data-testid="reply-count-link"
+            href={`/replies/${post.postId}`}
+            className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 w-fit"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            {post.replyCount} {post.replyCount === 1 ? "reply" : "replies"}
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

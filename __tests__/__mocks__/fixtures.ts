@@ -27,3 +27,15 @@ export const mockPost: Post = {
   replyCount: 2,
   edited: false,
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const mockReply: any = {
+  replyId: "reply-def",
+  authorUid: "user-456",
+  authorName: "Amit",
+  authorRole: "admin",
+  content: "Great job!",
+  createdAt: new Date("2024-01-15T11:00:00Z"),
+  updatedAt: null,
+  edited: false,
+};

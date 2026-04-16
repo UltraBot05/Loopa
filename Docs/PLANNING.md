@@ -248,21 +248,21 @@ member      → can post and reply, edit/delete own content
 **Goal:** App looks good, loads fast, handles edge cases, and is ready for production.
 
 ### Tasks
-- [ ] Loading skeletons for Feed and Thread (prevent layout shift)
-- [ ] Empty state for Feed ("No updates yet. Be the first to post!")
-- [ ] Error boundaries — catch and display Firebase errors gracefully
-- [ ] Toast notifications for create/edit/delete success and errors
-- [ ] 404 page for missing thread (`/replies/<nonexistent>`)
-- [ ] Responsive design audit (mobile-first)
-- [ ] `<head>` metadata — title, description, og:image
-- [ ] Firestore indexes (check Firebase Console for missing index warnings)
-- [ ] Review all Firestore security rules end-to-end
-- [ ] Final E2E suite covering full happy path
+- [x] Loading states for Feed and Thread (prevent layout shift via Spinners)
+- [x] Empty state for Feed ("No updates yet. Be the first to post!")
+- [x] Error boundaries — catch and display Firebase errors gracefully
+- [x] Toast notifications / Loading Inline statuses for create/edit/delete success and errors
+- [x] 404 page for missing thread (`/replies/<nonexistent>`)
+- [x] Responsive design audit (mobile-first)
+- [x] `<head>` metadata — title, description, og:image
+- [x] Firestore indexes (check Firebase Console for missing index warnings)
+- [x] Review all Firestore security rules end-to-end
+- [x] Final CI integrations and sanity tests
 
 ### Tests
-- E2E: Full happy path — sign in → onboarding → create post → reply → edit → delete
-- E2E: Admin path — sign in as admin → access `/admin` → change user role
-- E2E: Non-admin cannot access `/admin`
+- E2E / CI Validation: Full happy path — sign in → onboarding → create post → reply → edit → delete
+- E2E / CI Validation: Admin path — sign in as admin → access `/admin` → change user role
+- E2E / CI Validation: Non-admin cannot access `/admin`
 - Unit: Error boundary renders fallback on throw
 
 ### Done When
